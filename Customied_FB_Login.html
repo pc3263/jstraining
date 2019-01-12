@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <title>Facebook Login</title>
 <script>
+
 // 3. 登入狀態改變時, 做出對應的處理
 function statusChangeCallback(response) {
     //console.log('statusChangeCallback');
@@ -13,44 +14,48 @@ function statusChangeCallback(response) {
 	welcome.style.display="none";
 	main.style.display="none";
     if (response.status === 'connected') { //使用者已登入
-		// Logged into your app and Facebook.
-		testAPI(); //抓取使用者的資料
+		main.style.display="block";
     } else { //使用者未登入, 鼓勵使用者登入
-      // The person is not logged into your app or we are unable to tell.
-		document.getElementById('status').innerHTML = 'Please log ' +
-        'into this app.';
+      welcome.style.display="block";
     }
 }
+function login(){
+	//取得使用者的基本授權資料+scope中額外要求的資料
+	FB.login(function(response){
+		statusChangeCallback(response);
+	}, {scope:"email,user_gender"});
+}
 // 2. 套件載入完成後, 呼叫 window fbAsyncInit 函式
-window.fbAsyncInit = function() {
-//初始化 Facebook SDK 套件
-FB.init({
-      appId      : '2002076643424881',
-      cookie     : true,  // enable cookies to allow the server to access 
-                          // the session
-      xfbml      : true,  // parse social plugins on this page
-      version    : 'v2.8' // use graph api version 2.8
-});
+window.fbAsyncInit = function(){
+	//初始化 Facebook SDK 套件
+	FB.init({
+		appId      : '2002076643424881',
+		cookie     : true,  // enable cookies to allow the server to access 
+							// the session
+		xfbml      : true,  // parse social plugins on this page
+		version    : 'v2.8' // use graph api version 2.8
+	});
+	//偵測使用者的登入狀態
+	FB.getLoginStatus(function(response){
+		console.log(response);
+		statusChangeCallback(response);
+	});
+}
 
-//偵測使用者的登入狀態
-FB.getLoginStatus(function(response) {
-	console.log(response);
-	statusChangeCallback(response);
-});
 // 1. 載入Facebook Javascript SDK asynchronously
-function(d, s, id) {
+(function(d, s, id){
 	var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;
     js = d.createElement(s); js.id = id;
     js.src = "https://connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
+	}(document, 'script', 'facebook-jssdk'));
 </script>
 </head>
 <body>
 	<h3>Facebook Login</h3>
 	<div id="welcome" style="display:none">
-		<button>Login</button>
+		<button onclick="Login();">Login</button>
 	</div>
 	<div id="main" style="display:none">Hello</div>
 </body>
