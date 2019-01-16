@@ -22,11 +22,15 @@ function testAPI() {
 	FB.api('/me?fields=id,name,email,gender,birthday', function(response){
 		console.log(response);
 	});
+	//抓取使用者塗鴉牆上的posts
+	FB.api('/me/feed',function(response){
+		console.log(response);
+	});
 }
 function login(){
 	FB.login(function(response){
 		statusChangeCallback(response);
-	}, {scope:"email,user_gender"});
+	}, {scope:"email,user_gender,user_posts"});
 }
 // 2. 套件載入完成後，呼叫 window.fbAsyncInit 函式
 window.fbAsyncInit=function(){
