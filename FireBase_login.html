@@ -43,7 +43,7 @@ let db=firebase.database();
 function post(){
 	let id=currentUser.uid;
 	let name=currentUser.displayName;
-	let content=document.querySelector("#content");
+	let content=document.querySelector("#content").value;
 	//加入資料庫
 	let ref=db.ref("/messages");
 	ref.push({
