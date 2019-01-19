@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>Firebase</title>
+
+<script src="https://www.gstatic.com/firebasejs/5.8.0/firebase.js"></script>
+<script>
+// Initialize Firebase
+  let config = {
+    apiKey: "AIzaSyCm4HAUwqHNvJ0ZP1IuWK3o2LToAXUwTA8",
+    authDomain: "myfbproject-834aa.firebaseapp.com",
+    databaseURL: "https://myfbproject-834aa.firebaseio.com",
+    projectId: "myfbproject-834aa",
+    storageBucket: "myfbproject-834aa.appspot.com",
+    messagingSenderId: "1091046293216"
+  };
+firebase.initializeApp(config);
+let auth=firebase.auth();
+let provider = new firebase.auth.FacebookAuthProvider();
+provider.addScope("user_birthday");
+//當使用者的登入狀態變化的時候, 執行我們提供的函式
+auth.onAuthStateChanged(function(user){
+	let member=document.querySelector("#member");
+	let welcome=document.querySelector("#welcome");
+	member.style.display="none";
+	welcome.style.display="none";
+	if(user) { //使用者已經登入
+		console.log(user);
+		member.style.display="block";
+	}else{ //使用者已經登出
+		console.log(user);
+		welcome.style.display="block";
+	}
+});
+function signIn(){
+	auth.signInWithPopup(provider).then(function(result){
+	}).catch(function(error) {
+	});
+}
+  
+</script>
+</head>
+<body>
+	<h3>Message Board</h3>
+	<div id="welcome" style="display:none;")>
+		<button onclick="singIn();">Sign In</button>
+	</div>
+	<div id="member" style="display:none;")>Hello</div>
+	<hr/>
+	<div id="list">Message List</div>
+</body>
+</html>
