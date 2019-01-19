@@ -52,7 +52,8 @@ function post(){
 			if(error){
 				alert(error);
 			}else{
-				alert("Okay");
+				document.querySelector("#content").value="";
+				read();
 			}
 	});
 }
