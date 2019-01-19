@@ -63,8 +63,17 @@ function read(){
 		snapshots.forEach(function(snapshot){
 			data.push(snapshot.val());
 		});
-		console.log(data);
+		show(data);
 	});
+}
+function show(data){
+	let list=document.querySelector("#list");
+	list.innerHTML="";
+	let message;
+	for(let i=0; i<data.length; i++){
+		message=data[i];
+		list.innerHTML=message.name.bold()+" "+message.content+"<hr/>"+list.innerHTML;
+	}
 }
 //網頁載入完成後, 做一些處理
 window.addEventListener("load", function(){
